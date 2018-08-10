@@ -25,7 +25,7 @@ SECRET_KEY = '%i%0kb_^*$svkcnvmslo9l+=gbv=)+3=v7+&^63j$ajb7ytp3o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [wx.zhoukuniyc.top]
 
 
 # Application definition
