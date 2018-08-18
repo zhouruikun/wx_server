@@ -1,12 +1,25 @@
 import hashlib
 import logging
+import random
+import string
+
+
+from django.contrib.admin.utils import unquote
+import json
+
+from django.core.cache import cache
+from django.views import View
+
+from wx_server import wechart_info
 
 from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from django.views import generic
+
 from django.views.decorators.csrf import csrf_exempt
+from pip._vendor import requests
+
 
 @csrf_exempt
 def weixin_main(request):
@@ -112,3 +125,81 @@ class TextMsg(Msg):
         </xml>
         """
         return XmlForm.format(**self.__dict)
+
+def airkiss(request):
+
+    context = {'test': 'hello'}
+    return render(request, 'wx/airkiss.html', context)
+
+
+class base_authorization():
+
+    @classmethod
+    def get_ticket(cls):
+        key = 'ticket'
+        try:
+            if cache.has_key(key):
+                ticket  = cache.get(key)
+            else:
+                if cache.has_key('access_token'):
+                    access_token = cache.get('access_token')
+                else:
+                    access_token = cls.get_access_token()
+                ticket = requests.get(wechart_info.get_ticket+access_token).json()['ticket']
+                cache.set(key,ticket,110*60)
+
+            return ticket
+        except Exception as Argment:
+            print(Argment)
+            return Argment
+
+    @staticmethod
+    def get_access_token():
+
+        key = 'access_token'
+        access_token = requests.get(wechart_info.base_get_access_token).json()['access_token']
+        cache.set(key,access_token,110*60)
+        return access_token
+
+class signature(View):
+
+    def __init__(self, url):
+        self.ret = {
+            'nonceStr': self.__create_nonce_str(),
+            'jsapi_ticket': base_authorization.get_ticket(),
+            'timestamp': self.__create_timestamp(),
+            'url': url
+        }
+
+
+
+    def __create_nonce_str(self):
+        return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
+
+
+    def __create_timestamp(self):
+        return int(time.time())
+
+    def sign(self):
+        string = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)]).encode('utf-8')
+        self.ret['signature'] = hashlib.sha1(string).hexdigest()
+
+
+        return self.ret
+
+class activity(View):
+
+    def get(self, request):
+        return render(request, 'wx/activaty.html')
+
+    def post(self,request,*args, **kwargs):
+        request_type = request.POST.get('type')
+        if not request_type:
+
+            request_body = json.loads(request.body.decode())
+            pathname = request_body['url']
+            sign = signature(unquote(pathname))
+            sign = json.dumps(sign.sign())
+            return HttpResponse(sign, content_type="application/json")
+        elif request_type == 'image/jpeg':
+            pass #传图片的时候会用到

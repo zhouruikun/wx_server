@@ -110,7 +110,17 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache', #本地文件缓存
+        'LOCATION': '127.0.0.1:6379',
+        'TIMEOUT': 600,
+        'OPTIONS': {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "IGNORE_EXCEPTIONS": True,
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -130,6 +140,7 @@ STATIC_ROOT = './static'
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+from wx_server import wechart_info
 import logging
 logging.basicConfig(
 level = logging.DEBUG,
