@@ -155,10 +155,10 @@ class base_authorization():
 
     @staticmethod
     def get_access_token():
-
         key = 'access_token'
         access_token = requests.get(wechart_info.base_get_access_token).json()['access_token']
         cache.set(key,access_token,110*60)
+
         return access_token
 
 class signature(View):
@@ -168,7 +168,8 @@ class signature(View):
             'nonceStr': self.__create_nonce_str(),
             'jsapi_ticket': base_authorization.get_ticket(),
             'timestamp': self.__create_timestamp(),
-            'url': url
+            'url': url,
+
         }
 
 
@@ -183,8 +184,7 @@ class signature(View):
     def sign(self):
         string = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)]).encode('utf-8')
         self.ret['signature'] = hashlib.sha1(string).hexdigest()
-
-
+        self.ret['appId']=wechart_info.app_id
         return self.ret
 
 class activity(View):

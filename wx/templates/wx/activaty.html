@@ -33,19 +33,19 @@ helloworld
     let wxStatus = 0
 
     $(document).ready(function () {
- 
+
         $.ajax({
             type: 'post',
             //url: "http://wx.zhoukuniyc.top/wx/activity", // class activity设置的链接
             url: location.href.split('#')[0], // class activity设置的链接
             //data: JSON.stringify({'url': encodeURIComponent(location.href.split('#')[0])}),
-            data: JSON.stringify({'url': encodeURIComponent(location.href.split('#')[0])}),
+            data: JSON.stringify({'url':  (location.href.split('#')[0])}),
             headers: {'Content-Type': 'application/json'},
             success: function (res) {
                 console.log(res)
                 wx.config({
                     debug: true,
-                    appId: 'wx7a54e2832a3c92e4',
+                    appId: res['appId'],
                     timestamp: res['timestamp'],
                     nonceStr: res['nonceStr'],
                     signature: res['signature'],
