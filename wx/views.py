@@ -1,4 +1,5 @@
 import hashlib
+import logging
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -7,7 +8,8 @@ from django.shortcuts import render
 from django.views import generic
 
 def index(request):
-
+    logging.debug(request)
+    logging.debug(len(request.GET))
     try:
         if len(request.GET) == 0:
             return HttpResponse("hello, this is handle view")
