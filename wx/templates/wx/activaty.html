@@ -6,7 +6,20 @@
 </head>
 <body>
 
-helloworld
+
+  <div class="pic">
+    <div class="wifi"></div>
+  </div>
+  <div class="tips">
+    <ul>
+      <li>1. 确定手机已连接WiFi</li>
+      <li>2. 请长按设备上的配置按钮</li>
+      <li>3. 请等待WiFi配置指示灯闪烁后松开</li>
+    </ul>
+  </div>
+  <div class="action">
+    开始配置
+  </div>
 
 
 </body>
@@ -49,13 +62,13 @@ helloworld
                     timestamp: res['timestamp'],
                     nonceStr: res['nonceStr'],
                     signature: res['signature'],
-                    jsApiList: ['chooseImage', 'uploadImage']
+                    jsApiList: ['configWXDeviceWiFi', 'scanQRCode']
                 });
                 wx.error(function (res) {
                     wxStatus = 2
                 });
                 wx.ready(function () {
-
+                    wxStatus = 1
                 });
 
             },
@@ -65,5 +78,24 @@ helloworld
         });
 
     })
+
+    !function(){
+          function configWiFi(){
+            wx.invoke('configWXDeviceWiFi', {}, function(res){
+              if(res.err_msg == 'configWXDeviceWiFi:ok'){
+                alert('配置成功!');
+                wx.closeWindow();
+              } else {
+                alert('配置失败！请重试');
+              }
+            });
+          }
+          wx.ready(function(){
+            $('.action').click(function(){
+              configWiFi();
+            });
+          });
+
+    }();
 </script>
 </html>
