@@ -33,11 +33,11 @@ helloworld
     let wxStatus = 0
 
     $(document).ready(function () {
-
+alert(location.href.split('#')[0])
         $.ajax({
             type: 'post',
-            url: "http://wx.zhoukuniyc.top/wx/activity", // class activity设置的链接
-           // url: "http://localhost:8000/wx/activity", // class activity设置的链接
+            //url: "http://wx.zhoukuniyc.top/wx/activity", // class activity设置的链接
+            url: "http://localhost:8000/wx/activity", // class activity设置的链接
             //data: JSON.stringify({'url': encodeURIComponent(location.href.split('#')[0])}),
             data: JSON.stringify({'url': encodeURIComponent(location.href.split('#')[0])}),
             headers: {'Content-Type': 'application/json'},
