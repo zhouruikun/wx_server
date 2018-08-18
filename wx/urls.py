@@ -8,7 +8,7 @@ from . import views
 
 app_name = 'wx'
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.weixin_main, name='index'),
 # 增加以下一行，以识别静态资源
     url(r'^static/(?P<path>.*)$', static.serve,
         {'document_root': settings.STATIC_ROOT}, name='static')
