@@ -12,33 +12,23 @@
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/wifi-config.css">
 </head>
 <body>
 
-<div class="container-fluid"style="width: 100%; height: 500px;margin: 0 auto;">
-    <div class="row">
-
-            <div class="card" style="width: 50%; margin: 0 auto;">
-                <img class="card-img-top" src="../static/wifi.png" alt="Card image cap">
-                <div class="card-body center-block">
-                    <ul class="list-group list-group-flush" style="width: 80%; margin: 0 auto;">
-                        <li class="list-group-item">1. 确定手机已连接WiFi</li>
-                        <li class="list-group-item">2. 请长按设备上的配置按钮</li>
-                        <li class="list-group-item">3. 请等待WiFi配置指示灯闪烁后松开</li>
-                        <li class="list-group-item">
-
-                            <button class='btn-success action' style="display: inline">
-                                开始配置
-                            </button>
-                        </li>
-                    </ul>
-
-                </div>
-            </div>
-
-
-    </div>
-</div>
+  <div class="pic">
+    <div class="wifi"></div>
+  </div>
+  <div class="tips">
+    <ul>
+      <li>1. 确定手机已连接WiFi</li>
+      <li>2. 请长按设备上的配置按钮</li>
+      <li>3. 请等待WiFi配置指示灯闪烁后松开</li>
+    </ul>
+  </div>
+  <div class="action">
+    开始配置
+  </div>
 
 
 </body>
