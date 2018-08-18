@@ -1,7 +1,5 @@
 
 *.pyc
-*.pyc
 *.log
-wx_server/__pycache__/urls.cpython-36.pyc
-wx_server/__pycache__/settings.cpython-36.pyc
-wx_server/__pycache__/__init__.cpython-36.pyc
+wx_server/__pycache__
+.idea
