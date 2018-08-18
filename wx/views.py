@@ -182,9 +182,10 @@ class signature(View):
         return int(time.time())
 
     def sign(self):
+
         string = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)]).encode('utf-8')
         self.ret['signature'] = hashlib.sha1(string).hexdigest()
-        self.ret['appId']=wechart_info.app_id
+        self.ret['appId'] = wechart_info.app_id
         return self.ret
 
 class activity(View):

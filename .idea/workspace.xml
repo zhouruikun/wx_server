@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="254b2eb1-4053-44d5-b7c5-94388853060a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/wx/templates/wx/activaty.html" beforeDir="false" afterPath="$PROJECT_DIR$/wx/templates/wx/activaty.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wx_server/view.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp.log" beforeDir="false" afterPath="$PROJECT_DIR$/myapp.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wx/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wx/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wx_server/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/wx_server/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wx_server/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/wx_server/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,7 +25,7 @@
         <entry file="file://$PROJECT_DIR$/wx_server/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="236">
-              <caret line="114" column="40" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
+              <caret line="138" column="40" lean-forward="true" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -28,11 +33,20 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wx_server/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+            <state relative-caret-position="493">
+              <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
               <folding>
                 <element signature="e#633#665#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MP_verify_DshRWAbSGJZKipZG.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/MP_verify_DshRWAbSGJZKipZG.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -41,7 +55,19 @@
         <entry file="file://$PROJECT_DIR$/wx/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+              <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="view.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wx_server/view.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -49,19 +75,16 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wx/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="186" column="45" selection-start-line="186" selection-start-column="45" selection-end-line="186" selection-end-column="45" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="300">
+              <caret line="10" selection-start-line="10" selection-end-line="11" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activaty.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="activaty.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wx/templates/wx/activaty.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
+            <state relative-caret-position="330">
               <caret line="47" column="46" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="46" />
             </state>
           </provider>
@@ -81,27 +104,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
               <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/django-polls/polls/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="39" selection-start-line="39" selection-end-line="40" selection-end-column="55" />
-              <folding>
-                <element signature="e#0#54#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -152,13 +154,14 @@
         <option value="$PROJECT_DIR$/wx/templates/wx/index.html" />
         <option value="$PROJECT_DIR$/static/hh.txt" />
         <option value="$PROJECT_DIR$/wx/xgc.wechart.py" />
-        <option value="$PROJECT_DIR$/wx_server/settings.py" />
         <option value="$PROJECT_DIR$/wx/templates/wx/airkiss.html" />
-        <option value="$PROJECT_DIR$/wx_server/urls.py" />
         <option value="$PROJECT_DIR$/wx/urls.py" />
         <option value="$PROJECT_DIR$/wx_server/wechart_info.py" />
-        <option value="$PROJECT_DIR$/wx/views.py" />
         <option value="$PROJECT_DIR$/wx/templates/wx/activaty.html" />
+        <option value="$PROJECT_DIR$/wx/views.py" />
+        <option value="$PROJECT_DIR$/wx_server/settings.py" />
+        <option value="$PROJECT_DIR$/wx_server/urls.py" />
+        <option value="$PROJECT_DIR$/wx_server/view.py" />
       </list>
     </option>
   </component>
@@ -202,6 +205,11 @@
               <item name="wx_server" type="462c0819:PsiDirectoryNode" />
               <item name="django-polls" type="462c0819:PsiDirectoryNode" />
               <item name="django_polls.egg-info" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wx_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wx_server" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wx_server" type="b2602c69:ProjectViewProjectNode" />
@@ -338,23 +346,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/django-polls/polls/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="6" selection-start-line="6" selection-end-line="7" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/django-polls/README.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/django-polls/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="960">
@@ -630,23 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wx_server/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="114" column="40" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wx_server/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-          <folding>
-            <element signature="e#633#665#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wx/templates/wx/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -661,23 +635,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wx/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wx/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="186" column="45" selection-start-line="186" selection-start-column="45" selection-end-line="186" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wx_server/wechart_info.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -687,8 +644,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wx/templates/wx/activaty.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
+        <state relative-caret-position="330">
           <caret line="47" column="46" selection-start-line="47" selection-start-column="46" selection-end-line="47" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wx_server/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="138" column="40" lean-forward="true" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wx/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wx/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="10" selection-start-line="10" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wx_server/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+          <folding>
+            <element signature="e#633#665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/MP_verify_DshRWAbSGJZKipZG.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wx_server/view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
         </state>
       </provider>
     </entry>
