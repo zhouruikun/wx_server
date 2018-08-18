@@ -1,8 +1,8 @@
-2018-08-18 15:11:46,002 DEBUG Registered VCS backend: git
-2018-08-18 15:11:46,092 DEBUG Registered VCS backend: hg
-2018-08-18 15:11:46,097 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
-2018-08-18 15:11:46,098 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
-2018-08-18 15:11:46,098 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
-2018-08-18 15:11:46,098 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
-2018-08-18 15:11:46,132 DEBUG Registered VCS backend: svn
-2018-08-18 15:11:46,133 DEBUG Registered VCS backend: bzr
+2018-08-18 15:29:11,583 DEBUG Registered VCS backend: git
+2018-08-18 15:29:11,673 DEBUG Registered VCS backend: hg
+2018-08-18 15:29:11,678 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
+2018-08-18 15:29:11,678 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
+2018-08-18 15:29:11,679 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
+2018-08-18 15:29:11,679 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
+2018-08-18 15:29:11,714 DEBUG Registered VCS backend: svn
+2018-08-18 15:29:11,714 DEBUG Registered VCS backend: bzr
