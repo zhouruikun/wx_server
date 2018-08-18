@@ -33,15 +33,15 @@ helloworld
     let wxStatus = 0
 
     $(document).ready(function () {
+
         $.ajax({
             type: 'post',
-            url: "http://wx.zhoukuniyc.top/wx/activity", // class activity设置的链接
-            //url: "http://localhost:8000/wx/activity", // class activity设置的链接
+            //url: "http://wx.zhoukuniyc.top/wx/activity", // class activity设置的链接
+            url: "http://localhost:8000/wx/activity", // class activity设置的链接
             //data: JSON.stringify({'url': encodeURIComponent(location.href.split('#')[0])}),
             data: JSON.stringify({'url': encodeURIComponent(location.href.split('#')[0])}),
             headers: {'Content-Type': 'application/json'},
             success: function (res) {
-
                 wx.config({
                     debug: true,
                     appId: 'wx7a54e2832a3c92e4',
@@ -49,22 +49,20 @@ helloworld
                     nonceStr: res['nonceStr'],
                     signature: res['signature'],
                     jsApiList: ['chooseImage', 'uploadImage']
-                })
+                });
+                wx.error(function (res) {
+                    wxStatus = 2
+                });
+                wx.ready(function () {
+             
+                });
 
             },
             error:function (res) {
+
             }
         });
-        wx.ready(function () {
-              wxStatus = 1
-              console.log('xd')
-        })
-        wx.error(function (res) {
-            wxStatus = 2
 
-              console.log(res)
-
-        })
     })
 </script>
 </html>
