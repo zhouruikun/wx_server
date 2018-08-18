@@ -19,8 +19,8 @@ from django.shortcuts import render
 
 from django.views.decorators.csrf import csrf_exempt
 from pip._vendor import requests
-
-
+import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
 @csrf_exempt
 def weixin_main(request):
     if request.method == "GET":
@@ -46,6 +46,14 @@ def weixin_main(request):
 
 #微信服务器推送消息是xml的，根据利用ElementTree来解析出的不同xml内容返回不同的回复信息，就实现了基本的自动回复功能了，也可以按照需求用其他的XML解析方法
 import xml.etree.ElementTree as ET
+
+
+def mqtt_send(topic,data):
+    HOST = "106.14.226.150"
+    PORT = 1883
+    client_id = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+    publish.single(topic, data, qos = 1,hostname=HOST,port=PORT, client_id=client_id)
+
 def autoreply(request):
     try:
         webData = request.body
@@ -57,15 +65,17 @@ def autoreply(request):
         CreateTime = xmlData.find('CreateTime').text
         MsgType = xmlData.find('MsgType').text
         MsgId = xmlData.find('MsgId').text
-
+        Content_recv = xmlData.find('Content').text
         toUser = FromUserName
         fromUser = ToUserName
 
         if msg_type == 'text':
-            content = "您好,欢迎来到Python大学习!希望我们可以一起进步!"
-            replyMsg = TextMsg(toUser, fromUser, content)
-            print ("成功了!!!!!!!!!!!!!!!!!!!")
-            print (replyMsg)
+            content = "周坤真帅"
+            if "led" in Content_recv:
+                mqtt_send('ESP8266/sample/sub',Content_recv)
+                replyMsg = TextMsg(toUser, fromUser, "操作成功 你真厉害")
+            else:
+                replyMsg = TextMsg(toUser, fromUser, content)
             return replyMsg.send()
 
         elif msg_type == 'image':
