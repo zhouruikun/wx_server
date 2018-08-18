@@ -1,8 +1,12 @@
-2018-08-18 19:57:52,523 DEBUG Registered VCS backend: git
-2018-08-18 19:57:52,595 DEBUG Registered VCS backend: hg
-2018-08-18 19:57:52,600 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
-2018-08-18 19:57:52,600 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
-2018-08-18 19:57:52,600 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
-2018-08-18 19:57:52,600 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
-2018-08-18 19:57:52,636 DEBUG Registered VCS backend: svn
-2018-08-18 19:57:52,636 DEBUG Registered VCS backend: bzr
+2018-08-18 20:59:14,932 DEBUG Registered VCS backend: git
+2018-08-18 20:59:15,005 DEBUG Registered VCS backend: hg
+2018-08-18 20:59:15,010 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
+2018-08-18 20:59:15,010 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
+2018-08-18 20:59:15,010 DEBUG Config variable 'Py_DEBUG' is unset, Python ABI tag may be incorrect
+2018-08-18 20:59:15,010 DEBUG Config variable 'WITH_PYMALLOC' is unset, Python ABI tag may be incorrect
+2018-08-18 20:59:15,068 DEBUG Registered VCS backend: svn
+2018-08-18 20:59:15,069 DEBUG Registered VCS backend: bzr
+2018-08-18 21:02:13,742 DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
+2018-08-18 21:02:14,338 DEBUG https://api.weixin.qq.com:443 "GET /cgi-bin/token?grant_type=client_credential&appid=wx7a54e2832a3c92e4&secret=bd679521867b24bd8dbd79c48a98be63 HTTP/1.1" 200 194
+2018-08-18 21:02:14,347 DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
+2018-08-18 21:02:14,499 DEBUG https://api.weixin.qq.com:443 "GET /cgi-bin/ticket/getticket?type=jsapi&access_token=12_Sy2SKMJ7g8wbQKdBvogrJcaray5Bm9YAvmL77QjSZJS8drMlmSNi4sYOuD1EjWDQgGIiyVGw9gCn4MLroP6duPtu6gXsrr_RBNS4GBOSHyGq8uichFEsgDoWRZReSkA60G_I3UcXydpH66LiDXNbAHATND HTTP/1.1" 200 143
