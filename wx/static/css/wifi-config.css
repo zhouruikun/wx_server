@@ -3,6 +3,9 @@ body {
   padding: 10px;
   font-family: Helvetica, sans-serif;
 }
+ul li{
+list-style-type:none;
+}
 
 .pic {
   margin-top: 10px;
@@ -35,4 +38,3 @@ body {
 .wifi {
   background-image: url(../img/wifi.png)
 }
-
