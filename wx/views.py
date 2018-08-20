@@ -166,7 +166,9 @@ class base_authorization():
     @staticmethod
     def get_access_token():
         key = 'access_token'
+
         access_token = requests.get(wechart_info.base_get_access_token).json()['access_token']
+
         cache.set(key,access_token,110*60)
 
         return access_token
@@ -198,6 +200,7 @@ class signature(View):
         self.ret['appId'] = wechart_info.app_id
         return self.ret
 
+
 class activity(View):
 
     def get(self, request):
@@ -206,7 +209,6 @@ class activity(View):
     def post(self,request,*args, **kwargs):
         request_type = request.POST.get('type')
         if not request_type:
-
             request_body = json.loads(request.body.decode())
             pathname = request_body['url']
             sign = signature(unquote(pathname))

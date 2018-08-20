@@ -3,3 +3,4 @@
 *.log
 wx_server/__pycache__
 .idea
+*.rdb
