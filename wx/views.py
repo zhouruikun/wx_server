@@ -166,7 +166,9 @@ class base_authorization():
     @staticmethod
     def get_access_token():
         key = 'access_token'
+
         access_token = requests.get(wechart_info.base_get_access_token).json()['access_token']
+
         cache.set(key,access_token,110*60)
 
         return access_token
@@ -210,6 +212,7 @@ class activity(View):
             request_body = json.loads(request.body.decode())
             pathname = request_body['url']
             sign = signature(unquote(pathname))
+            print(sign.sign())
             sign = json.dumps(sign.sign())
             return HttpResponse(sign, content_type="application/json")
         elif request_type == 'image/jpeg':
