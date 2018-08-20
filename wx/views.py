@@ -1,25 +1,17 @@
 import hashlib
-import logging
-import random
-import string
-
-
+import urllib
 from django.contrib.admin.utils import unquote
 import json
-
-from django.core.cache import cache
+from django.urls import reverse
 from django.views import View
-
-from wx_server import wechart_info
-
-from django.http import HttpResponse
-from django.shortcuts import render
+from wx.models import User
+from wx.wechat_api import wx_log_error, signature, WechatApi
+from django.http import HttpResponse, HttpResponseServerError, Http404
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
 from django.views.decorators.csrf import csrf_exempt
-from pip._vendor import requests
-import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 @csrf_exempt
 def weixin_main(request):
@@ -57,15 +49,17 @@ def mqtt_send(topic,data):
 def autoreply(request):
     try:
         webData = request.body
-        xmlData = ET.fromstring(webData)
 
+        xmlData = ET.fromstring(webData)
         msg_type = xmlData.find('MsgType').text
         ToUserName = xmlData.find('ToUserName').text
         FromUserName = xmlData.find('FromUserName').text
         CreateTime = xmlData.find('CreateTime').text
-        MsgType = xmlData.find('MsgType').text
-        MsgId = xmlData.find('MsgId').text
-        Content_recv = xmlData.find('Content').text
+        print(webData)
+        if xmlData.find('Content') != None:
+            Content_recv = xmlData.find('Content').text
+        else:
+            Content_recv = ''
         toUser = FromUserName
         fromUser = ToUserName
 
@@ -98,12 +92,26 @@ def autoreply(request):
             content = "位置已收到,谢谢"
             replyMsg = TextMsg(toUser, fromUser, content)
             return replyMsg.send()
-        else:
-            msg_type == 'link'
+        elif msg_type == 'link':
             content = "链接已收到,谢谢"
             replyMsg = TextMsg(toUser, fromUser, content)
             return replyMsg.send()
+        elif msg_type == 'event':
 
+            EventKey = xmlData.find('EventKey').text
+            if EventKey == 'key_light_on':
+                mqtt_send('ESP8266/sample/sub', 'led = 1')
+                content = "已经开灯，周坤真帅"
+            else:
+                mqtt_send('ESP8266/sample/sub',  'led = 0')
+                content = "已经关灯，周坤真帅"
+
+            replyMsg = TextMsg(toUser, fromUser, content)
+            return replyMsg.send()
+        else:
+            content = "发的啥玩意"
+            replyMsg = TextMsg(toUser, fromUser, content)
+            return replyMsg.send()
     except Exception as Argment:
         return Argment
 
@@ -136,75 +144,12 @@ class TextMsg(Msg):
         """
         return XmlForm.format(**self.__dict)
 
-def airkiss(request):
-
-    context = {'test': 'hello'}
-    return render(request, 'wx/airkiss.html', context)
 
 
-class base_authorization():
-
-    @classmethod
-    def get_ticket(cls):
-        key = 'ticket'
-        try:
-            if cache.has_key(key):
-                ticket  = cache.get(key)
-            else:
-                if cache.has_key('access_token'):
-                    access_token = cache.get('access_token')
-                else:
-                    access_token = cls.get_access_token()
-                ticket = requests.get(wechart_info.get_ticket+access_token).json()['ticket']
-                cache.set(key,ticket,110*60)
-
-            return ticket
-        except Exception as Argment:
-            print(Argment)
-            return Argment
-
-    @staticmethod
-    def get_access_token():
-        key = 'access_token'
-
-        access_token = requests.get(wechart_info.base_get_access_token).json()['access_token']
-
-        cache.set(key,access_token,110*60)
-
-        return access_token
-
-class signature(View):
-
-    def __init__(self, url):
-        self.ret = {
-            'nonceStr': self.__create_nonce_str(),
-            'jsapi_ticket': base_authorization.get_ticket(),
-            'timestamp': self.__create_timestamp(),
-            'url': url,
-
-        }
-
-
-
-    def __create_nonce_str(self):
-        return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
-
-
-    def __create_timestamp(self):
-        return int(time.time())
-
-    def sign(self):
-
-        string = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)]).encode('utf-8')
-        self.ret['signature'] = hashlib.sha1(string).hexdigest()
-        self.ret['appId'] = wechart_info.app_id
-        return self.ret
-
-
-class activity(View):
+class airkiss(View):
 
     def get(self, request):
-        return render(request, 'wx/activaty.html')
+        return render(request, 'wx/airkiss.html')
 
     def post(self,request,*args, **kwargs):
         request_type = request.POST.get('type')
@@ -216,3 +161,110 @@ class activity(View):
             return HttpResponse(sign, content_type="application/json")
         elif request_type == 'image/jpeg':
             pass #传图片的时候会用到
+
+
+class AuthView(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        # 判断是否有授权
+        if not 'user' in request.session:
+            # 用户需要访问的url路径
+            path = request.get_full_path()
+
+            # 跳转url,
+            red_url = '%s?path=%s' % (reverse('wx_auth'), urllib.quote(path))
+            return redirect(red_url)
+
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
+
+
+class GetUserInfoView(View):#
+    def get(self, request):
+
+        redir_url = request.GET.get('path')
+        code = request.GET.get('code')
+
+        if redir_url and code:
+
+            # 获取网页授权access_token
+            token_data, error = WechatApi.get_auth_access_token(code)
+
+            if error:
+                wx_log_error(error)
+                return HttpResponseServerError('get access_token error')
+
+            # 获取用户信息信息
+            user_info, error =  WechatApi.get_user_info(token_data['access_token'], token_data['openid'])
+
+            if error:
+                wx_log_error(error)
+                return HttpResponseServerError('get userinfo error')
+
+            # 存储用户信息
+            user = self._save_user(user_info)
+            if not user:
+                return HttpResponseServerError('save userinfo error')
+
+            # 用户对象存入session
+            request.session['user'] = user
+
+            # 跳转回目标页面
+            return redirect(redir_url)
+
+        # 用户禁止授权后怎么操作
+        else:
+            return Http404('parameter path or code not founded!!')
+
+    def _save_user(self, data):
+        user = User.objects.filter(openid=data['openid'])
+
+        # 没有则存储用户数据，有返回用户数据的字典
+        if 0 == user.count():
+            user_data = {
+                'nick': data['nickname'].encode('iso8859-1').decode('utf-8'),
+                'openid': data['openid'],
+                'avatar': data['headimgurl'],
+                'info': self._user2utf8(data),
+            }
+
+            if 'unionid' in data:
+                user_data.update('unionid', data.unionid)
+
+            try:
+                new_user = User(**user_data)
+                new_user.save()
+
+                user_data.update({'id': new_user.id})
+
+                return user_data
+            except Exception as e:
+                print(e)
+
+            return None
+        else:
+            # 把User对象序列化成字典，具体看rest_framework中得内容
+            return ''#UserSerializer(user[0]).data
+
+
+    # 解决中文显示乱码问题
+    def _user2utf8(self, user_dict):
+        utf8_user_info = {
+            "openid": user_dict['openid'],
+            "nickname": user_dict['nickname'].encode('iso8859-1').decode('utf-8'),
+            "sex": user_dict['sex'],
+            "province": user_dict['province'].encode('iso8859-1').decode('utf-8'),
+            "city": user_dict['city'].encode('iso8859-1').decode('utf-8'),
+            "country": user_dict['country'].encode('iso8859-1').decode('utf-8'),
+            "headimgurl": user_dict['headimgurl'],
+            "privilege": user_dict['privilege'],
+        }
+
+        if 'unionid' in user_dict:
+            utf8_user_info.update({'unionid': user_dict['unionid']})
+
+        return utf8_user_info
+

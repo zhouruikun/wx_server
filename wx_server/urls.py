@@ -25,5 +25,6 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     # 增加以下一行，以识别静态资源
-    url('MP_verify_DshRWAbSGJZKipZG.txt',token_check)
+    url('MP_verify_DshRWAbSGJZKipZG.txt',token_check),
+        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
