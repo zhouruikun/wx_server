@@ -89,8 +89,13 @@ DATABASES = {
         'USER':'root',
         'PASSWORD':'',
         'HOST':'localhost',
-        'PORT':''
-    }
+        'PORT':'',
+        'characterEncoding':'UTF-8',
+        'OPTIONS':{
+            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
+            }
+         }
+
 }
 
 
@@ -141,7 +146,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-from wx_server import wechart_info
+from wx import wechart_info
 import logging
 logging.basicConfig(
 level = logging.DEBUG,
@@ -149,3 +154,11 @@ format ='%(asctime)s %(levelname)s %(message)s',
 filename ='./myapp.log',
 filemode ='w+'
 )
+
+# CELERY STUFF
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'

@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static "css/weui.css" %}">
+    <link rel="stylesheet" href="{% static "css/example.css" %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="weui-cells__title">我的鱼缸:ID={{ device_id }}</div>
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell weui-cell_switch" >
+        <div class="weui-cell__bd">灯光</div>
+        <div class="weui-cell__ft">
+            <input id="switch1" class="weui-switch" type="checkbox" onclick="switch1_onclick()"/>
+        </div>
+    </div>
+
+    <div class="weui-cell weui-cell_switch">
+        <div class="weui-cell__bd">水泵</div>
+        <div class="weui-cell__ft">
+            <input id="switch2" class="weui-switch" type="checkbox" onclick="switch2_onclick()" />
+        </div>
+    </div>
+
+    <div class="weui-cell weui-cell_switch">
+        <div class="weui-cell__bd">水温</div>
+
+            <div class="weui-cell__bd" id="temprature">20°C</div>
+
+    </div>
+    <div class="weui-cell weui-cell_switch">
+        <div class="weui-cell__bd">自动喂鱼</div>
+        <div class="weui-cell__ft">
+            <a href="javascript:" class="weui-btn weui-btn_primary " onclick="feed_click()"><i id="loading" ></i>喂鱼</a>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script>
+    var hostname = "106.14.226.150";      //主机IP  106.14.181.32
+    var hostPort = 8083;             //port
+    var sub_count = 0;
+    var client;
+    var delay_key=0;
+    var device_id = '{{ device_id| safe  }}'
+function MQTTconnect() {
+    client = new Paho.MQTT.Client(hostname, hostPort, "autofeed"+Math.random());
+    client.onMessageArrived = onMessageArrived;
+    client.connect({onSuccess:onConnect});
+    console.log("Host="+ hostname + ", port=" + hostPort);
+};
+// called when the client connects
+function onConnect() {
+  console.log("onConnect succeeds");
+  client.subscribe(device_id +'/pub');
+}
+// called when a message arrives
+function onMessageArrived(message) {
+    var payload = message.payloadString;
+    console.log(payload)
+    var payload2 = JSON.parse(payload);
+    temperature = payload2['temperture'] / 100.00;
+    if ((payload2['temperture'] / 100.00) < 100.0)
+    {
+          $('#temprature').text(temperature+'°C');
+    }
+
+   if(delay_key==0)
+   {$("#switch1").prop("checked",payload2['io2']);//很简单就不说了哦
+    $("#switch2").prop("checked",payload2['io1']);//很简单就不说了哦
+   }
+   else
+   {
+       delay_key--;
+   }
+
+}
+function switch1_onclick(){
+    delay_key=1;
+    if ($('#switch1').prop("checked")==true)
+        text =  'relay1=1'
+    else
+        text =  'relay1=0'
+
+    var message = new Paho.MQTT.Message(text);
+    message.destinationName = device_id +'/sub';
+    client.send(message);
+};
+function feed_click(){
+    text = 'feed=0900'
+
+$('#loading').attr("class","weui-loading")
+        setTimeout(function () {
+$('#loading').attr("class","")
+          alert("喂鱼完成")
+        }, 2000);
+    var message = new Paho.MQTT.Message(text);
+    message.destinationName = device_id +'/sub';
+    client.send(message);
+};
+function switch2_onclick(){
+    delay_key=1;
+    if ($('#switch2').prop("checked")==true)
+        text =  'relay0=1'
+    else
+        text =  'relay0=0'
+
+    var message = new Paho.MQTT.Message(text);
+    message.destinationName = device_id +'/sub';
+    client.send(message);
+};
+$(document).ready(function() {
+    MQTTconnect();
+});
+</script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+</body>
+</html>

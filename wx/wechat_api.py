@@ -5,15 +5,18 @@ import random
 import string
 
 import time
+import urllib.parse
+
+import requests
 from django.core.cache import cache
 import urllib
 import logging
 
-from pip._vendor import requests
 
-from wx_server import wechart_info
 
-log = logging.getLogger('django')
+from wx import wechart_info
+
+log = logging.getLogger('./django')
 
 
 class APIError(object):
@@ -24,7 +27,7 @@ class APIError(object):
 
 def wx_log_error(APIError):
     log.error('wechat api error: [%s], %s' % (APIError.code, APIError.msg))
-
+    print('wechat api error: [%s], %s' % (APIError.code, APIError.msg))
 
 class base_authorization():
     @classmethod
@@ -34,11 +37,8 @@ class base_authorization():
             if cache.has_key(key):
                 ticket = cache.get(key)
             else:
-                if cache.has_key('access_token'):
-                    access_token = cache.get('access_token')
-                else:
-                    access_token, status = cls.get_access_token()
-                ticket = requests.get(wechart_info.get_ticket+access_token).json()['ticket']
+                access_token, status = cls.get_access_token()
+                ticket = requests.get(wechart_info.get_ticket + access_token).json()['ticket']
                 cache.set(key, ticket, 110*60)
 
             return ticket
@@ -49,6 +49,9 @@ class base_authorization():
     @staticmethod
     def get_access_token():
         key = 'access_token'
+        if (cache.has_key(key)):
+            return cache.get(key), True
+        print(requests.get(wechart_info.base_get_access_token).json())
         access_token = requests.get(wechart_info.base_get_access_token).json()['access_token']
         cache.set(key, access_token, 110*60)
         return access_token, True
@@ -73,14 +76,16 @@ class signature():
     def sign(self):
         string1 = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)]).encode('utf-8')
         self.ret['signature'] = hashlib.sha1(string1).hexdigest()
-        self.ret['appId'] = wechart_info.app_id
+        self.ret['appId'] = wechart_info.APPID
         return self.ret
     
 
 class WechatBaseApi(object):
     API_PREFIX = u'https://api.weixin.qq.com/cgi-bin/'
 
-    def __init__(self, appid, appsecret, api_entry=None):
+    def __init__(self, appid = wechart_info.APPID, appsecret = wechart_info.APPSECRET, api_entry=None):
+
+        self.config = wechart_info
         self.appid = appid
         self.appsecret = appsecret
         self._access_token = None
@@ -90,9 +95,8 @@ class WechatBaseApi(object):
     def access_token(self):
         if not self._access_token:
             token, err = base_authorization.get_access_token()
-
-            if not err:
-                self._access_token = token['access_token']
+            if err:
+                self._access_token = token
                 return self._access_token
             else:
                 return None
@@ -105,7 +109,6 @@ class WechatBaseApi(object):
             return None, APIError(rsp.status_code, 'http error')
         try:
             content = rsp.json()
-
         except Exception:
             return None, APIError(9999, 'invalid response')
         if 'errcode' in content and content['errcode'] != 0:
@@ -124,21 +127,24 @@ class WechatBaseApi(object):
         return self._process_response(rsp)
 
     def _post(self, path, data, type='json'):
-
         header = {'content-type': 'application/json'}
-
         if '?' in path:
             url = self.api_entry + path + 'access_token=' + self.access_token
         else:
             url = self.api_entry + path + '?' + 'access_token=' + self.access_token
-
         if 'json' == type:
             data = json.dumps(data, ensure_ascii=False).encode('utf-8')
-
         rsp = requests.post(url, data, headers=header)
-
         return self._process_response(rsp)
 
+    def post_to_control(self, data, type='json'):
+        header = {'content-type': 'application/json'}
+
+        url = wechart_info.defaults.get('api_control') + '?' + 'access_token=' + self.access_token
+        if 'json' == type:
+            data = json.dumps(data, ensure_ascii=False).encode('utf-8')
+        rsp = requests.post(url, data, headers=header)
+        return self._process_response(rsp)
 
 class WechatApi(WechatBaseApi):
 
@@ -154,8 +160,23 @@ class WechatApi(WechatBaseApi):
 
     # 返回授权url
     def auth_url(self, redirect_uri, scope='snsapi_userinfo', state=None):
-        url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect' % \
-              (self.appid, urllib.quote(redirect_uri), scope, state if state else '')
+        url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope\
+        =%s&state=%s#wechat_redirect' % (self.appid, urllib.parse.quote(redirect_uri), scope, state if state else '')
+        return url
+    def get_code_url(self,path = None):
+        """微信内置浏览器获取网页授权code的url"""
+        url = self.config.defaults.get('wechat_browser_code') + (
+            '?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&path=%s#wechat_redirect' %
+            (self.config.APPID, urllib.parse.quote(self.config.REDIRECT_URI),
+             self.config.SCOPE, self.config.STATE if self.config.STATE else '', path))
+        return url
+
+    def get_code_url_pc(self):
+        """pc浏览器获取网页授权code的url"""
+        url = self.config.defaults.get('pc_QR_code') + (
+            '?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect' %
+            (self.config.APPID, urllib.parse.quote(self.config.REDIRECT_URI), self.config.PC_LOGIN_SCOPE,
+             self.config.STATE if self.config.STATE else ''))
         return url
 
     # 获取网页授权的access_token
