@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 import hashlib
 import urllib.parse
 
@@ -107,7 +107,7 @@ def autoreply(request):
         fromUser = ToUserName
 
         if msg_type == 'text':
-            content = "周坤真帅"
+            content = "谢谢关注"
             if "led" in Content_recv:
                 replyMsg = TextMsg(toUser, fromUser, "操作成功 你真厉害")
             else:
@@ -233,7 +233,7 @@ class AuthView(WechatViewSet):
         return handler(request, *args, **kwargs)
 
     def get(self,request):# 返回主页面 设备列表等
-        return HttpResponse('周坤最帅')
+        return HttpResponse('谢谢关注')
 
 class GetUserInfoView(WechatViewSet):
     def get(self, request):
