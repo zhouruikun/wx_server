@@ -143,10 +143,10 @@ def autoreply(request):
             EventKey = xmlData.find('EventKey').text
             if EventKey == 'key_light_on':
                 #mqtt_send('ESP8266/sample/sub', 'led = 1')
-                content = "已经开灯，周坤真帅"
+                content = "已经开灯"
             else:
                 #mqtt_send('ESP8266/sample/sub',  'led = 0')
-                content = "已经关灯，周坤真帅"
+                content = "谢谢关注，宁波树莓网络科技有限公司"
 
             replyMsg = TextMsg(toUser, fromUser, content)
             return replyMsg.send()
